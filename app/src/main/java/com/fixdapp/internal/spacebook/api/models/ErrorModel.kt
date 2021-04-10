@@ -6,5 +6,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ErrorModel(
     @SerialName("type")
-    val type: String
+    val type: String,
+
+    @SerialName("message")
+    val message: String
 )
