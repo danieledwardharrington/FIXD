@@ -8,7 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.fixdapp.internal.spacebook.api.InstantAdapter
 import com.fixdapp.internal.spacebook.api.SpacebookApi
 import com.fixdapp.internal.spacebook.api.TokenManager
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.squareup.moshi.Moshi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -31,8 +34,9 @@ class Dependencies(private val applicationContext: Context) {
     }
 
     val api: SpacebookApi by lazy {
+        val contentType = MediaType.get("application/json")
         Retrofit.Builder()
-            .addConverterFactory(MoshiConverterFactory.create(moshi).withNullSerialization())
+            .addConverterFactory(Json{ignoreUnknownKeys = true}.asConverterFactory(contentType))
             .baseUrl("https://spacebook-code-challenge.herokuapp.com/api/")
             .client(
                 OkHttpClient().newBuilder()

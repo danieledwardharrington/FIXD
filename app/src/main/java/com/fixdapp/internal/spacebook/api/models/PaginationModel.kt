@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PaginationModel<T>(
+data class PaginationModel(
     @SerialName("currentPage")
     val currentPage: Int,
 
@@ -15,8 +15,5 @@ data class PaginationModel<T>(
     val totalPages: Int,
 
     @SerialName("totalEntries")
-    val totalEntries: Int,
-
-    @SerialName("data")
-    val data: T?
+    val totalEntries: Int
 )

@@ -1,13 +1,15 @@
 package com.fixdapp.internal.spacebook.api
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
-import retrofit2.http.Body
-import retrofit2.http.POST
-import java.time.Instant
+import androidx.lifecycle.MutableLiveData
+import com.fixdapp.internal.spacebook.api.models.ActivityModel
+import com.fixdapp.internal.spacebook.api.models.PostModel
+import com.fixdapp.internal.spacebook.api.models.SessionRequestModel
+import com.fixdapp.internal.spacebook.api.models.UserModel
+import com.fixdapp.internal.spacebook.api.response.SpacebookResponse
+import retrofit2.http.*
 
 interface SpacebookApi {
-    @JsonClass(generateAdapter = true)
+/*    @JsonClass(generateAdapter = true)
     data class ApiError(val type: String)
 
     @JsonClass(generateAdapter = true)
@@ -28,8 +30,15 @@ interface SpacebookApi {
     )
 
     @JsonClass(generateAdapter = true)
-    data class SessionRequest(val email: String, val password: String)
+    data class SessionRequest(val email: String, val password: String)*/
 
     @POST("session")
-    suspend fun login(@Body request: SessionRequest): ApiResponse<User>
+    suspend fun login(@Body request: SessionRequestModel): SpacebookResponse<UserModel>
+
+    @GET("/users/{userId}/feed")
+    suspend fun getFeed(@Path("userId") userId: String, @Query("page") page: Int, @Query("perPage") perPage: Int): MutableLiveData<SpacebookResponse<ActivityModel>>
+
+    @GET("posts/{id}")
+    suspend fun getPostById(@Path("id") id: Int): MutableLiveData<SpacebookResponse<PostModel>>
+
 }
