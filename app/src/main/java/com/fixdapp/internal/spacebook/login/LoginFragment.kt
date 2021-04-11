@@ -19,7 +19,7 @@ import com.fixdapp.internal.spacebook.login.LoginViewModel.State.Error.Reason.*
 class LoginFragment : Fragment() {
 
     private val viewModel: LoginViewModel by activityViewModels {
-        fromDependencies { LoginViewModel(api) }
+        fromDependencies { LoginViewModel(api, sbDatabase) }
     }
 
     private var _binding: FragmentLoginBinding? = null

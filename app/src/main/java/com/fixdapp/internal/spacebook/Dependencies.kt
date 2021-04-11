@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.fixdapp.internal.spacebook.api.InstantAdapter
 import com.fixdapp.internal.spacebook.api.SpacebookApi
 import com.fixdapp.internal.spacebook.api.TokenManager
+import com.fixdapp.internal.spacebook.persistence.SpacebookDatabase
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.squareup.moshi.Moshi
 import kotlinx.serialization.json.Json
@@ -46,6 +47,8 @@ class Dependencies(private val applicationContext: Context) {
             .build()
             .create()
     }
+
+    val sbDatabase: SpacebookDatabase = SpacebookDatabase.getDatabaseInstance(applicationContext)!!
 }
 
 val Activity.dependencies: Dependencies get() = (application as App).dependencies

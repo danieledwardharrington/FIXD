@@ -21,5 +21,5 @@ data class UserModel(
     val githubUserName: String?,
 
     @SerialName("rating")
-    val rating: Double
+    val rating: Double?
 )

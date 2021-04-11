@@ -13,5 +13,5 @@ data class SpacebookResponse<T>(
     val data: T?,
 
     @SerialName("error")
-    val error: ErrorModel?
+    val error: ErrorModel? = null
 )

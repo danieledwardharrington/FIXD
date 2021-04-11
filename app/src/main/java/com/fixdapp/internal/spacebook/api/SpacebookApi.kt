@@ -36,13 +36,13 @@ interface SpacebookApi {
     suspend fun login(@Body request: SessionRequestModel): SpacebookResponse<UserModel>
 
     @GET("users/{id}")
-    suspend fun gerUserById(@Path("id") id: Int): MutableLiveData<SpacebookResponse<UserModel>>
+    suspend fun gerUserById(@Path("id") id: Int): SpacebookResponse<UserModel>
 
     @GET("users/{userId}/feed")
-    suspend fun getFeed(@Path("userId") userId: String, @Query("page") page: Int, @Query("perPage") perPage: Int): MutableLiveData<SpacebookResponse<ActivityModel>>
+    suspend fun getFeed(@Path("userId") userId: String, @Query("page") page: Int, @Query("perPage") perPage: Int): SpacebookResponse<List<ActivityModel>>
 
     @GET("posts/{id}")
-    suspend fun getPostById(@Path("id") id: Int): MutableLiveData<SpacebookResponse<PostModel>>
+    suspend fun getPostById(@Path("id") id: Int): SpacebookResponse<PostModel>
 
     @DELETE("comments/{id}")
     suspend fun deleteCommentById(@Path("id") id: Int)

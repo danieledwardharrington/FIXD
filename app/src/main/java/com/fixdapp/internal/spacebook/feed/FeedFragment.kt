@@ -7,12 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.fixdapp.internal.spacebook.R
+import com.fixdapp.internal.spacebook.fromDependencies
 
 
 class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
     // TODO: create feed
+    private val viewModel: FeedViewModel by activityViewModels {
+        fromDependencies { FeedViewModel(api, sbDatabase) }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

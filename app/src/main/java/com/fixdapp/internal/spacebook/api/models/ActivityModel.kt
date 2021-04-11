@@ -18,5 +18,5 @@ data class ActivityModel(
     val type: String,
 
     @SerialName("data")
-    val data: List<FeedEnum>
+    val data: FeedEnum
 )

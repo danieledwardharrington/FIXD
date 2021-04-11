@@ -1,15 +1,19 @@
 package com.fixdapp.internal.spacebook.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fixdapp.internal.spacebook.api.SpacebookApi
+import com.fixdapp.internal.spacebook.api.models.SessionRequestModel
 import com.fixdapp.internal.spacebook.login.LoginViewModel.State.Error.Reason.*
+import com.fixdapp.internal.spacebook.persistence.SpacebookDatabase
+import com.fixdapp.internal.spacebook.util.Helpers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class LoginViewModel(private val api: SpacebookApi) : ViewModel() {
+class LoginViewModel(private val api: SpacebookApi, private val sbDatabse: SpacebookDatabase) : ViewModel() {
 
     sealed class State {
         object FillingOutForm : State()
@@ -35,12 +39,16 @@ class LoginViewModel(private val api: SpacebookApi) : ViewModel() {
         }
         viewModelScope.launch {
             try {
-                val res = api.login(SpacebookApi.SessionRequest(email, password))
+                val res = api.login(SessionRequestModel(email, password))
                 _state.value = when {
                     res.data != null -> State.Success
                     res.error?.type == "NOT_AUTHENTICATED" -> State.Error(INCORRECT_PASSWORD)
                     else -> State.Error(NETWORK_ERROR)
                 }
+                Log.d("USER ID: ", res.data?.id.toString())
+                Log.d("NAME: ", res.data!!.name)
+
+                sbDatabse.userDao().insert(Helpers().mapUserModelToEntity(res.data))
             } catch (e: HttpException) {
                 // TODO: not the VM's responsibility to wrap retrofit
                 if (e.response()?.code() == 401) {
@@ -50,6 +58,7 @@ class LoginViewModel(private val api: SpacebookApi) : ViewModel() {
                 }
             }
         }
+
     }
 
     private fun isValidEmail(email: String): Boolean {
