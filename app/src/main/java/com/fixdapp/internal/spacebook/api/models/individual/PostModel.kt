@@ -1,5 +1,6 @@
-package com.fixdapp.internal.spacebook.api.models
+package com.fixdapp.internal.spacebook.api.models.individual
 
+import com.fixdapp.internal.spacebook.api.models.feed.UserModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

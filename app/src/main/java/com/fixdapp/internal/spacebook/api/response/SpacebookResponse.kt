@@ -1,7 +1,7 @@
 package com.fixdapp.internal.spacebook.api.response
 
-import com.fixdapp.internal.spacebook.api.models.ErrorModel
-import com.fixdapp.internal.spacebook.api.models.PaginationModel
+import com.fixdapp.internal.spacebook.api.models.feed.ErrorModel
+import com.fixdapp.internal.spacebook.api.models.feed.PaginationModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

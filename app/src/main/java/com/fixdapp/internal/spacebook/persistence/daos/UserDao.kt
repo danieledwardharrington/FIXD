@@ -16,11 +16,12 @@ interface UserDao {
     suspend fun delete(userEntity: UserEntity)
 
     @Query("SELECT * FROM user_table WHERE sb_id=:sbId")
-    suspend fun getUserById(sbId: String): UserEntity
+    suspend fun getUserById(sbId: Int): UserEntity
 
     @Query("SELECT * FROM user_table")
     suspend fun getAllUsers(): List<UserEntity>
 
     @Query("DELETE FROM user_table")
     suspend fun deleteAllUsers()
+
 }

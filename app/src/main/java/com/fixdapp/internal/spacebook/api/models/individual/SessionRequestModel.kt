@@ -1,4 +1,4 @@
-package com.fixdapp.internal.spacebook.api.models
+package com.fixdapp.internal.spacebook.api.models.individual
 
 import kotlinx.serialization.Serializable
 

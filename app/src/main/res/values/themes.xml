@@ -18,4 +18,8 @@
     <style name="SansSerifTextViewStyle" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">sans-serif</item>
     </style>
+
+    <style name="ProgressBarPurple" parent="Theme.SpacebookReferenceImplementation">
+        <item name="colorAccent">@color/purple_500</item>
+    </style>
 </resources>

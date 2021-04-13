@@ -8,14 +8,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.fixdapp.internal.spacebook.api.InstantAdapter
 import com.fixdapp.internal.spacebook.api.SpacebookApi
 import com.fixdapp.internal.spacebook.api.TokenManager
+import com.fixdapp.internal.spacebook.api.models.feed.ParentFeed
 import com.fixdapp.internal.spacebook.persistence.SpacebookDatabase
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.squareup.moshi.Moshi
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.modules.subclass
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 
 /**
@@ -36,8 +39,31 @@ class Dependencies(private val applicationContext: Context) {
 
     val api: SpacebookApi by lazy {
         val contentType = MediaType.get("application/json")
+
+        /*
+        This is needed to properly handle the polymorphism, other types
+        could be done this way (ex: Any) if you wanted more flexibility or
+        wanted generics to work properly
+         */
+        val module = SerializersModule {
+            polymorphic(ParentFeed::class) {
+                subclass(ParentFeed.PostFeed::class)
+                subclass(ParentFeed.CommentFeed::class)
+                subclass(ParentFeed.RatingFeed::class)
+                subclass(ParentFeed.GithubNewRepoFeed::class)
+                subclass(ParentFeed.GithubPushFeed::class)
+                subclass(ParentFeed.GithubNewPRFeed::class)
+                subclass(ParentFeed.GithubMergePRFeed::class)
+            }
+        }
+
+        val  jsonConfig = Json {
+            serializersModule = module
+            ignoreUnknownKeys = true
+        }
+
         Retrofit.Builder()
-            .addConverterFactory(Json{ignoreUnknownKeys = true}.asConverterFactory(contentType))
+            .addConverterFactory(jsonConfig.asConverterFactory(contentType))
             .baseUrl("https://spacebook-code-challenge.herokuapp.com/api/")
             .client(
                 OkHttpClient().newBuilder()

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.fixdapp.internal.spacebook.R
 import com.fixdapp.internal.spacebook.databinding.FragmentLoginBinding
@@ -73,7 +74,10 @@ class LoginFragment : Fragment() {
                     getString(R.string.incorrect_password)
                 NETWORK_ERROR -> binding.LoginErrorMessage.visibility = View.VISIBLE
             }
-            Success -> findNavController().navigate(R.id.login_to_main)
+            Success -> {
+                val action = LoginFragmentDirections.loginFragmentToFeedFragment(viewModel.currentUser!!)
+                findNavController().navigate(action)
+            }
         }
     }
 

@@ -8,16 +8,18 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import com.fixdapp.internal.spacebook.R
 import com.fixdapp.internal.spacebook.fromDependencies
 
 
 class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
-    // TODO: create feed
     private val viewModel: FeedViewModel by activityViewModels {
         fromDependencies { FeedViewModel(api, sbDatabase) }
     }
+
+    private val args by navArgs<FeedFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +33,7 @@ class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.logout -> {
-                // TODO: log out
+
             }
             else -> return false
         }

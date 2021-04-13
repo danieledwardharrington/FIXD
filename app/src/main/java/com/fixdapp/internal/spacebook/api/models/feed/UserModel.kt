@@ -1,10 +1,14 @@
-package com.fixdapp.internal.spacebook.api.models
+package com.fixdapp.internal.spacebook.api.models.feed
 
+
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Parcelize
 @Serializable
-data class UserModel(
+data class UserModel (
     @SerialName("id")
     val id: Int,
 
@@ -22,4 +26,4 @@ data class UserModel(
 
     @SerialName("rating")
     val rating: Double?
-)
+): Parcelable
