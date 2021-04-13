@@ -39,7 +39,7 @@ interface SpacebookApi {
     suspend fun gerUserById(@Path("id") id: Int): SpacebookResponse<UserModel>
 
     @GET("users/{userId}/feed")
-    suspend fun getFeed(@Path("userId") userId: String, @Query("page") page: Int, @Query("perPage") perPage: Int): SpacebookResponse<List<ActivityModel>>
+    suspend fun getFeed(@Path("userId") userId: Int, @Query("page") page: Int, @Query("perPage") perPage: Int): SpacebookResponse<MutableList<ActivityModel>>
 
     @GET("posts/{id}")
     suspend fun getPostById(@Path("id") id: Int): SpacebookResponse<PostModel>

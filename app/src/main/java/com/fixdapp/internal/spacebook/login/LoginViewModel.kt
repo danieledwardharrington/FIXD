@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fixdapp.internal.spacebook.api.SpacebookApi
+import com.fixdapp.internal.spacebook.api.models.FeedEnum
 import com.fixdapp.internal.spacebook.api.models.SessionRequestModel
 import com.fixdapp.internal.spacebook.login.LoginViewModel.State.Error.Reason.*
 import com.fixdapp.internal.spacebook.persistence.SpacebookDatabase
@@ -49,6 +50,11 @@ class LoginViewModel(private val api: SpacebookApi, private val sbDatabse: Space
                 Log.d("NAME: ", res.data!!.name)
 
                 sbDatabse.userDao().insert(Helpers().mapUserModelToEntity(res.data))
+                val res2 = api.getFeed(res.data?.id, 1, 10)
+                Log.d("FEED", res2.data?.get(1)?.type.toString())
+                if (res2.data?.get(1)?.type?.name == "GITHUB_PUSH") {
+                    Log.d("GH URL: ", res2.data?.get(1)?.data.url.toString())
+                }
             } catch (e: HttpException) {
                 // TODO: not the VM's responsibility to wrap retrofit
                 if (e.response()?.code() == 401) {

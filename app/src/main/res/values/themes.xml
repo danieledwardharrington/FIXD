@@ -12,5 +12,10 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:textViewStyle">@style/SansSerifTextViewStyle</item>
+    </style>
+
+    <style name="SansSerifTextViewStyle" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">sans-serif</item>
     </style>
 </resources>

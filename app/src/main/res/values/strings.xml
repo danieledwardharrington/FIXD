@@ -10,4 +10,10 @@
     <string name="invalid_password">Password must be at least 8 characters</string>
     <string name="incorrect_password">Password is incorrect</string>
     <string name="logout">Logout</string>
+    <string name="new_post">New Post</string>
+    <string name="commented_on">Commented on a post by</string>
+    <string name="news_feed">News Feed</string>
+    <string name="party_emoji">0x1F389</string>
+    <string name="opened_pr">Opened a new Pull Request</string>
+    <string name="merged">Merged</string>
 </resources>

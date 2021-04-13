@@ -2,6 +2,7 @@ package com.fixdapp.internal.spacebook.login
 
 import android.content.Context
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,13 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.observe(viewLifecycleOwner, this::onStateChanged)
+
+        //hardcoding email and password so I don't have to do it every time
+        val emailEditable = SpannableStringBuilder("elmira@example.net")
+        val passwordEditable = SpannableStringBuilder("bnpzvR+W")
+        binding.LoginEmailField.editText!!.text = emailEditable
+        binding.LoginPasswordField.editText!!.text = passwordEditable
+
         binding.LoginSubmit.setOnClickListener {
             val email = binding.LoginEmailField.editText!!.text.toString()
             val password = binding.LoginPasswordField.editText!!.text.toString()

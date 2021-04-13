@@ -15,5 +15,5 @@ data class UserEntity(
     @ColumnInfo(name = "rating") val rating: Double?
 ) {
     @PrimaryKey(autoGenerate = true)
-    private var id: Long = 0
+    var id: Long = 0
 }

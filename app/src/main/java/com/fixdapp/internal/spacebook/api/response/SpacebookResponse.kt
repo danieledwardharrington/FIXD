@@ -1,6 +1,7 @@
 package com.fixdapp.internal.spacebook.api.response
 
 import com.fixdapp.internal.spacebook.api.models.ErrorModel
+import com.fixdapp.internal.spacebook.api.models.PaginationModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,5 +14,8 @@ data class SpacebookResponse<T>(
     val data: T?,
 
     @SerialName("error")
-    val error: ErrorModel? = null
+    val error: ErrorModel? = null,
+
+    @SerialName("pagination")
+    val pagination: PaginationModel? = null
 )

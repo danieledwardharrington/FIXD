@@ -1,7 +1,12 @@
 package com.fixdapp.internal.spacebook.api.models
 
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Encoder
 
 @Serializable
 data class ActivityModel(
@@ -15,8 +20,8 @@ data class ActivityModel(
     val occurredAt: String,
 
     @SerialName("type")
-    val type: String,
+    val type: FeedEnum,
 
     @SerialName("data")
-    val data: FeedEnum
+    val data: FeedEventData
 )
