@@ -15,7 +15,7 @@ data class RatingModel(
     val raterId: Int,
 
     @SerialName("rating")
-    val rating: Int,
+    val rating: Double,
 
     @SerialName("ratedAt")
     val ratedAt: String

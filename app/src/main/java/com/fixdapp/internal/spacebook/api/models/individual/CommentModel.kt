@@ -20,4 +20,6 @@ data class CommentModel(
 
     @SerialName("commentedAt")
     val commentedAt: String
-)
+) {
+    var post: PostModel? = null
+}

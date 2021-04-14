@@ -3,6 +3,7 @@ package com.fixdapp.internal.spacebook.login
 import android.content.Context
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.fixdapp.internal.spacebook.R
+import com.fixdapp.internal.spacebook.api.models.feed.UserModel
 import com.fixdapp.internal.spacebook.databinding.FragmentLoginBinding
 import com.fixdapp.internal.spacebook.fromDependencies
 import com.fixdapp.internal.spacebook.login.LoginViewModel.State.*
@@ -19,6 +21,7 @@ import com.fixdapp.internal.spacebook.login.LoginViewModel.State.Error.Reason.*
 
 
 class LoginFragment : Fragment() {
+    private val TAG = "LoginFragment"
 
     private val viewModel: LoginViewModel by activityViewModels {
         fromDependencies { LoginViewModel(api, sbDatabase) }
@@ -26,6 +29,8 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+
+    private var currentUser: UserModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +44,9 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.observe(viewLifecycleOwner, this::onStateChanged)
+        viewModel.currentUserLD.observe(viewLifecycleOwner) { userModel ->
+            currentUser = userModel
+        }
 
         //hardcoding email and password so I don't have to do it every time
         val emailEditable = SpannableStringBuilder("elmira@example.net")
@@ -75,7 +83,8 @@ class LoginFragment : Fragment() {
                 NETWORK_ERROR -> binding.LoginErrorMessage.visibility = View.VISIBLE
             }
             Success -> {
-                val action = LoginFragmentDirections.loginFragmentToFeedFragment(viewModel.currentUser!!)
+                Log.d(TAG, "currentUser: ${currentUser!!.name}")
+                val action = LoginFragmentDirections.loginFragmentToFeedFragment(currentUser!!)
                 findNavController().navigate(action)
             }
         }

@@ -4,7 +4,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/_10sdp">
+    android:paddingTop="@dimen/_10sdp"
+    android:paddingStart="@dimen/_10sdp"
+    android:paddingEnd="@dimen/_10sdp"
+    tools:context=".post.PostFragment">
 
     <TextView
         android:id="@+id/post_title_tv"
@@ -56,7 +59,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/date_tv"
         android:textSize="@dimen/_12ssp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:text="This is just some sample text to mimic a post. Normally there would be something different here."/>
 
     <TextView
         android:id="@+id/comments_title_tv"

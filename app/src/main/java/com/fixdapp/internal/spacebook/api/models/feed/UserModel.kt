@@ -25,5 +25,5 @@ data class UserModel (
     val githubUserName: String?,
 
     @SerialName("rating")
-    val rating: Double?
+    val rating: Double? = 0.0
 ): Parcelable

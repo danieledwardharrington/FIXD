@@ -20,4 +20,6 @@ data class PostModel(
 
     @SerialName("author")
     val author: UserModel
-)
+) {
+    var numComments: Int? = 0
+}

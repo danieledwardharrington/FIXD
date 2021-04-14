@@ -32,8 +32,7 @@ class LoginViewModel(private val api: SpacebookApi, private val sbDatabse: Space
     private val _state: MutableLiveData<State> = MutableLiveData(State.FillingOutForm)
     val state: LiveData<State> get() = _state
 
-    val currentUser get() = _currentUser
-    private var _currentUser: UserModel? = null
+    var currentUserLD = MutableLiveData<UserModel>()
 
     fun login(email: String, password: String) {
         _state.value = State.LoggingIn
@@ -57,7 +56,7 @@ class LoginViewModel(private val api: SpacebookApi, private val sbDatabse: Space
                 Log.d("USER ID: ", res.data!!.id.toString())
                 Log.d("NAME: ", res.data.name)
 
-                _currentUser = res.data
+                currentUserLD.postValue(res.data!!)
 
             } catch (e: HttpException) {
                 // TODO: not the VM's responsibility to wrap retrofit
