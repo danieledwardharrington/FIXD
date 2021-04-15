@@ -2,6 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_100sdp"
+    android:paddingStart="@dimen/_10sdp"
+    android:paddingEnd="@dimen/_10sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -26,12 +28,11 @@
 
     <TextView
         android:id="@+id/event_tv"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="2"
-        app:layout_constraintTop_toBottomOf="@id/new_post_tv"
+        app:layout_constraintTop_toBottomOf="@id/date_tv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/date_tv"
         android:layout_marginTop="@dimen/_5sdp"
         android:textSize="@dimen/_14ssp"
         android:textColor="@color/black"

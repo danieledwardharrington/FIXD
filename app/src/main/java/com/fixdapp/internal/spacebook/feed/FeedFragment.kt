@@ -1,6 +1,7 @@
 package com.fixdapp.internal.spacebook.feed
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -17,12 +18,13 @@ import com.fixdapp.internal.spacebook.login.LoginFragmentDirections
 
 
 class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener {
+    private val TAG = "FeedFragment"
 
     private val viewModel: FeedViewModel by activityViewModels {
         fromDependencies { FeedViewModel(api, sbDatabase, tokenManager) }
     }
 
-    private val args by navArgs<FeedFragmentArgs>()
+    //private val args by navArgs<FeedFragmentArgs>()
 
     private var _binding: FragmentFeedBinding? = null
     private val binding get() = _binding!!
@@ -40,6 +42,7 @@ class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentFeedBinding.bind(view)
         initComponents()
     }
 
@@ -49,11 +52,12 @@ class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener {
     }
 
     private fun handleViewModel() {
-        viewModel.getFeed(args.currentUser.id).observe(viewLifecycleOwner) { pagingData ->
-            if (pagingData!= null) {
-                feedAdapter.submitData(lifecycle, pagingData)
-            }
+        viewModel.feedPD.observe(viewLifecycleOwner) { pagingData ->
+            Log.d(TAG, "feedPD observe")
+            feedAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+            binding.loadingPb.visibility = View.GONE
         }
+        //viewModel.getUserFeed(1)
     }
 
     private fun initRV() {

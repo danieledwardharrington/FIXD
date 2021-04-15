@@ -55,8 +55,8 @@ class LoginViewModel(private val api: SpacebookApi, private val sbDatabse: Space
                 //checking some user info in logcat
                 Log.d("USER ID: ", res.data!!.id.toString())
                 Log.d("NAME: ", res.data.name)
-
-                currentUserLD.postValue(res.data!!)
+                val helper = Helpers()
+                sbDatabse.userDao().insert(helper.mapUserModelToEntity(res.data))
 
             } catch (e: HttpException) {
                 // TODO: not the VM's responsibility to wrap retrofit

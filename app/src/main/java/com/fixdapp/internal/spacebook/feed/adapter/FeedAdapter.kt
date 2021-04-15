@@ -13,6 +13,12 @@ import com.fixdapp.internal.spacebook.R
 import com.fixdapp.internal.spacebook.api.models.feed.ParentFeed
 import com.fixdapp.internal.spacebook.api.models.individual.CommentModel
 import com.fixdapp.internal.spacebook.databinding.ItemFeedEventBinding
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.*
 import kotlin.math.floor
 
 class FeedAdapter: PagingDataAdapter<ParentFeed, FeedAdapter.FeedViewHolder>(COMPARATOR) {
@@ -57,8 +63,14 @@ class FeedAdapter: PagingDataAdapter<ParentFeed, FeedAdapter.FeedViewHolder>(COM
         private val arrowIV = itemBinding.arrowIv
 
         fun bind(parentFeed: ParentFeed) {
-            dateTV.text = parentFeed.occurredAt
-            var eventString = ""
+            val date = parentFeed.occurredAt.dropLast(1)
+            val localDate = LocalDateTime.parse(date)
+            val month = localDate.month.getDisplayName(TextStyle.SHORT, Locale.US)
+            val day = localDate.dayOfMonth
+            val year = localDate.year
+            val dateStr = "$day $month $year"
+            dateTV.text = dateStr
+            var eventString: String
             when (parentFeed) {
                 is ParentFeed.PostFeed -> {
                     userRB.visibility = View.GONE
@@ -72,9 +84,9 @@ class FeedAdapter: PagingDataAdapter<ParentFeed, FeedAdapter.FeedViewHolder>(COM
                     commentsTV.visibility = View.GONE
                     userRB.visibility = View.VISIBLE
                     eventString = context.getString(R.string.commented_on)
-                    eventString += " \n${parentFeed.commentModel.post!!.author.name}"
+                    //eventString += " \n${parentFeed.commentModel.post!!.author.name}"
                     eventTV.text = eventString
-                    userRB.rating = parentFeed.commentModel.post!!.author.rating!!.toFloat()
+                    //userRB.rating = parentFeed.commentModel.post!!.author.rating!!.toFloat()
                 }
 
                 is ParentFeed.RatingFeed -> {

@@ -83,9 +83,7 @@ class LoginFragment : Fragment() {
                 NETWORK_ERROR -> binding.LoginErrorMessage.visibility = View.VISIBLE
             }
             Success -> {
-                Log.d(TAG, "currentUser: ${currentUser!!.name}")
-                val action = LoginFragmentDirections.loginFragmentToFeedFragment(currentUser!!)
-                findNavController().navigate(action)
+                findNavController().navigate(R.id.feedFragment)
             }
         }
     }

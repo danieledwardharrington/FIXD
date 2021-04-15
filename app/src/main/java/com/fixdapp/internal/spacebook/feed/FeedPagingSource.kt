@@ -18,6 +18,21 @@ class FeedPagingSource(private val api: SpacebookApi, private val id: Int):
         return try {
             val response = api.getFeed(id, position, params.loadSize)
             val events = response.data!!
+            for (event in events) {
+                when (event) {
+                    is ParentFeed.CommentFeed -> {
+                        event.commentModel.post = api.getPostById(event.commentModel.postId).data
+                    }
+
+                    is ParentFeed.PostFeed -> {
+                        event.postModel.numComments = api.getPostComments(event.postModel.id, 1, 50).pagination!!.totalEntries
+                    }
+
+                    else -> {
+                        continue
+                    }
+                }
+            }
 
             LoadResult.Page(
                 data = events,
