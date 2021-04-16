@@ -11,6 +11,7 @@ class TokenManager(applicationContext: Context) : Interceptor {
         applicationContext.getSharedPreferences("Spacebook", Context.MODE_PRIVATE)
 
     private var token: String? = null
+    private var userId: Int? = null
 
     init {
         token = sharedPreferences.getString("auth_token", null)

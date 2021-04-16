@@ -19,7 +19,7 @@ interface UserDao {
     suspend fun getUserById(sbId: Int): UserEntity
 
     @Query("SELECT * FROM user_table")
-    suspend fun getAllUsers(): List<UserEntity>
+    suspend fun getUser(): UserEntity
 
     @Query("DELETE FROM user_table")
     suspend fun deleteAllUsers()

@@ -12,25 +12,29 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import com.fixdapp.internal.spacebook.Communicator
 import com.fixdapp.internal.spacebook.R
 import com.fixdapp.internal.spacebook.api.models.feed.UserModel
 import com.fixdapp.internal.spacebook.databinding.FragmentLoginBinding
 import com.fixdapp.internal.spacebook.fromDependencies
 import com.fixdapp.internal.spacebook.login.LoginViewModel.State.*
 import com.fixdapp.internal.spacebook.login.LoginViewModel.State.Error.Reason.*
+import kotlinx.coroutines.runBlocking
 
 
 class LoginFragment : Fragment() {
     private val TAG = "LoginFragment"
 
+    val LOGIN_KEY = 2
+
     private val viewModel: LoginViewModel by activityViewModels {
         fromDependencies { LoginViewModel(api, sbDatabase) }
     }
 
+    private val communicator: Communicator by activityViewModels()
+
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-
-    private var currentUser: UserModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,10 +49,10 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.observe(viewLifecycleOwner, this::onStateChanged)
         viewModel.currentUserLD.observe(viewLifecycleOwner) { userModel ->
-            currentUser = userModel
+            communicator.setUserId(userModel.id)
         }
 
-        //hardcoding email and password so I don't have to do it every time
+        //hardcoding email and password so I don't have to type it in every time
         val emailEditable = SpannableStringBuilder("elmira@example.net")
         val passwordEditable = SpannableStringBuilder("bnpzvR+W")
         binding.LoginEmailField.editText!!.text = emailEditable
@@ -83,7 +87,8 @@ class LoginFragment : Fragment() {
                 NETWORK_ERROR -> binding.LoginErrorMessage.visibility = View.VISIBLE
             }
             Success -> {
-                findNavController().navigate(R.id.feedFragment)
+                val action = LoginFragmentDirections.loginFragmentToFeedFragment(LOGIN_KEY)
+                findNavController().navigate(action)
             }
         }
     }

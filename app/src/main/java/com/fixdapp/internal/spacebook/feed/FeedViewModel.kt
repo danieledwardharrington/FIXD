@@ -21,12 +21,14 @@ class FeedViewModel(private val api: SpacebookApi, private val database: Spacebo
     private val TAG = "FeedViewModel"
 
     private val currentId = MutableLiveData(DEFAULT_ID)
+    val userFromRoom = MutableLiveData<UserEntity>()
+
     val feedPD = currentId.switchMap { id ->
         getFeed(id).cachedIn(viewModelScope)
     }
 
     fun getUserFeed(userId: Int) {
-        Log.d(TAG, "getUserFeed")
+        Log.d(TAG, "getUserFeed: $userId")
         currentId.value = userId
     }
 
@@ -40,27 +42,27 @@ class FeedViewModel(private val api: SpacebookApi, private val database: Spacebo
             pagingSourceFactory = { FeedPagingSource(api, userId) }
         ).liveData
 
-    fun getNumComments(postId: Int) {
-        try {
-            viewModelScope.launch {
-            }
-        } catch (ex: HttpException) {
-            Log.e(TAG, ex.toString())
-        }
-    }
-
-    fun getCurrentUser() {
-        viewModelScope.launch {
-            database.userDao().getUserById(1)
-        }
-    }
-
     fun logout() {
+        Log.d(TAG, "logout")
         tokenManager.logout()
     }
 
+    fun insertUser(userId: Int) {
+        Log.d(TAG, "insertUser")
+        viewModelScope.launch {
+            database.userDao().insert(UserEntity(userId))
+        }
+    }
+
+    fun getUserFromDB() {
+        Log.d(TAG, "getUserFromDB")
+        viewModelScope.launch {
+            userFromRoom.postValue(database.userDao().getUser())
+        }
+    }
+
     companion object {
-        private const val DEFAULT_ID = 1
+        private const val DEFAULT_ID = 0
     }
 
 }

@@ -24,6 +24,16 @@ import kotlin.math.floor
 class FeedAdapter: PagingDataAdapter<ParentFeed, FeedAdapter.FeedViewHolder>(COMPARATOR) {
     private val TAG = "FeedAdapter"
 
+    private lateinit var listener: OnEventItemClickedListener
+
+    interface OnEventItemClickedListener {
+        fun onEventClicked(parentFeed: ParentFeed)
+    }
+
+    fun setEventItemClickedListener(newListener: OnEventItemClickedListener) {
+        listener = newListener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
         Log.d(TAG, "onCreateViewHolder")
         val itemBinding = ItemFeedEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -41,7 +51,12 @@ class FeedAdapter: PagingDataAdapter<ParentFeed, FeedAdapter.FeedViewHolder>(COM
                 }
 
                 holder.itemView.setOnClickListener { view ->
-
+                    Log.d(TAG, "EventItemClicked")
+                    getItem(holder.bindingAdapterPosition).let { parentFeed ->
+                        if (parentFeed != null) {
+                            listener.onEventClicked(parentFeed)
+                        }
+                    }
                 }
             }
         }
@@ -77,6 +92,10 @@ class FeedAdapter: PagingDataAdapter<ParentFeed, FeedAdapter.FeedViewHolder>(COM
                     newPostTV.visibility = View.VISIBLE
                     commentsTV.visibility = View.VISIBLE
                     eventTV.text = parentFeed.postModel.title
+                    if (parentFeed.postModel.numComments != null) {
+                        eventString = "${parentFeed.postModel.numComments} Comments"
+                        commentsTV.text = eventString
+                    }
                 }
 
                 is ParentFeed.CommentFeed -> {
@@ -84,9 +103,16 @@ class FeedAdapter: PagingDataAdapter<ParentFeed, FeedAdapter.FeedViewHolder>(COM
                     commentsTV.visibility = View.GONE
                     userRB.visibility = View.VISIBLE
                     eventString = context.getString(R.string.commented_on)
-                    //eventString += " \n${parentFeed.commentModel.post!!.author.name}"
+                    if (parentFeed.commentModel.post != null) {
+                        Log.d(TAG, "CommentFeed post member not null")
+                        eventString += " \n${parentFeed.commentModel.post!!.author.name}"
+                        userRB.rating = parentFeed.commentModel.post!!.author.rating!!.toFloat()
+                    }
+                    else {
+                        Log.d(TAG, "CommentFeed post member NULL")
+                    }
+                    eventString += " \n${parentFeed.commentModel.post!!.author.name}"
                     eventTV.text = eventString
-                    //userRB.rating = parentFeed.commentModel.post!!.author.rating!!.toFloat()
                 }
 
                 is ParentFeed.RatingFeed -> {
@@ -120,7 +146,7 @@ class FeedAdapter: PagingDataAdapter<ParentFeed, FeedAdapter.FeedViewHolder>(COM
                     newPostTV.visibility = View.GONE
                     commentsTV.visibility = View.GONE
                     userRB.visibility = View.GONE
-                    eventString = "Pushed commits to\n ${parentFeed.githubPushModel.repo} ${parentFeed.githubPushModel.branch}"
+                    eventString = "Pushed commits to \n${parentFeed.githubPushModel.repo} ${parentFeed.githubPushModel.branch}"
                     eventTV.text = eventString
                 }
 

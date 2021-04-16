@@ -6,9 +6,11 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.fixdapp.internal.spacebook.api.SpacebookApi
+import com.fixdapp.internal.spacebook.api.TokenManager
+
 //import com.fixdapp.internal.spacebook.post.comments.CommentsPagingSource
 
-class PostViewModel(private val api: SpacebookApi): ViewModel() {
+class PostViewModel(private val api: SpacebookApi, private val tokenManager: TokenManager): ViewModel() {
 
 /*    fun getPostComments(postId: Int) =
         Pager(
@@ -19,4 +21,8 @@ class PostViewModel(private val api: SpacebookApi): ViewModel() {
             ),
             pagingSourceFactory = { CommentsPagingSource(api, postId) }
         ).liveData*/
+
+    fun logout() {
+        tokenManager.logout()
+    }
 }

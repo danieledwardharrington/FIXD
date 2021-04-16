@@ -1,6 +1,7 @@
 package com.fixdapp.internal.spacebook.post.comments
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.fixdapp.internal.spacebook.api.SpacebookApi
 import com.fixdapp.internal.spacebook.api.models.individual.CommentModel
 import retrofit2.HttpException
@@ -8,7 +9,6 @@ import java.io.IOException
 
 private const val STARTING_INDEX = 1
 
-/*
 class CommentsPagingSource(private val api: SpacebookApi, private val postId: Int):
     PagingSource<Int, CommentModel>() {
 
@@ -31,4 +31,8 @@ class CommentsPagingSource(private val api: SpacebookApi, private val postId: In
             LoadResult.Error(ex)
         }
     }
-}*/
+
+    override fun getRefreshKey(state: PagingState<Int, CommentModel>): Int? {
+        return state.anchorPosition
+    }
+}

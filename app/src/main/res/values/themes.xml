@@ -11,6 +11,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="snackbarStyle">@style/RedSnackBarStyle</item>
+        <item name="progressBarStyle">@style/ProgressBarPurple</item>
         <!-- Customize your theme here. -->
         <item name="android:textViewStyle">@style/SansSerifTextViewStyle</item>
     </style>
@@ -21,5 +23,10 @@
 
     <style name="ProgressBarPurple" parent="Theme.SpacebookReferenceImplementation">
         <item name="colorAccent">@color/purple_500</item>
+    </style>
+
+    <style name="RedSnackBarStyle" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:backgroundTint">@color/red</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

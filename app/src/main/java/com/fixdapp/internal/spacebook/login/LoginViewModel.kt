@@ -8,13 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fixdapp.internal.spacebook.api.SpacebookApi
-import com.fixdapp.internal.spacebook.api.models.feed.ParentFeed
 import com.fixdapp.internal.spacebook.api.models.feed.UserModel
 import com.fixdapp.internal.spacebook.api.models.individual.SessionRequestModel
-import com.fixdapp.internal.spacebook.api.models.individual.github.GithubEventModel
 import com.fixdapp.internal.spacebook.login.LoginViewModel.State.Error.Reason.*
 import com.fixdapp.internal.spacebook.persistence.SpacebookDatabase
-import com.fixdapp.internal.spacebook.util.Helpers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -55,8 +52,7 @@ class LoginViewModel(private val api: SpacebookApi, private val sbDatabse: Space
                 //checking some user info in logcat
                 Log.d("USER ID: ", res.data!!.id.toString())
                 Log.d("NAME: ", res.data.name)
-                val helper = Helpers()
-                sbDatabse.userDao().insert(helper.mapUserModelToEntity(res.data))
+                currentUserLD.value = res.data!!
 
             } catch (e: HttpException) {
                 // TODO: not the VM's responsibility to wrap retrofit

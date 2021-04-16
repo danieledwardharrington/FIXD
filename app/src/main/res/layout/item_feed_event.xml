@@ -38,13 +38,16 @@
         android:textColor="@color/black"
         android:text="There was a fish in the percolator!"/>
 
-    <RatingBar
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
         android:id="@+id/user_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/event_tv"
+        app:mrb_progressTint="@color/filled_stars"
+        app:mrb_secondaryProgressTint="@color/star_border"
+        app:mrb_progressTintMode="src_atop"
         android:scaleX="0.5"
         android:scaleY="0.5"
         android:stepSize="0.01"

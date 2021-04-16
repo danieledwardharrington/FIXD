@@ -60,6 +60,7 @@ class Dependencies(private val applicationContext: Context) {
         val  jsonConfig = Json {
             serializersModule = module
             ignoreUnknownKeys = true
+            prettyPrint = true
         }
 
         Retrofit.Builder()

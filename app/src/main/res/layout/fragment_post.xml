@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/_10sdp"
     android:paddingStart="@dimen/_10sdp"
     android:paddingEnd="@dimen/_10sdp"
-    tools:context=".post.PostFragment">
+    tools:context="com.fixdapp.internal.spacebook.post.PostFragment">
 
     <TextView
         android:id="@+id/post_title_tv"
@@ -39,7 +39,7 @@
         android:textSize="@dimen/_12ssp"
         android:text="1 Nov 2020"/>
 
-    <RatingBar
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
         android:id="@+id/author_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -47,6 +47,8 @@
         app:layout_constraintStart_toEndOf="@id/author_name_tv"
         app:layout_constraintTop_toTopOf="@id/author_name_tv"
         app:layout_constraintBottom_toBottomOf="@id/date_tv"
+        app:mrb_progressTint="@color/filled_stars"
+        app:mrb_secondaryProgressTint="@color/star_border"
         android:scaleY="0.5"
         android:scaleX="0.5"
         android:transformPivotX="0dp"/>
@@ -76,9 +78,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comments_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/comments_title_tv"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:nestedScrollingEnabled="false"
         tools:listitem="@layout/item_comment"/>
 
