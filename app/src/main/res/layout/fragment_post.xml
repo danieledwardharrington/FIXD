@@ -4,85 +4,126 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingTop="@dimen/_10sdp"
-    android:paddingStart="@dimen/_10sdp"
-    android:paddingEnd="@dimen/_10sdp"
     tools:context="com.fixdapp.internal.spacebook.post.PostFragment">
 
-    <TextView
-        android:id="@+id/post_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="@dimen/_20ssp"
-        android:text="My New Post"
-        android:textColor="@color/black"/>
-
-    <TextView
-        android:id="@+id/author_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/post_title_tv"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_12ssp"
-        android:text="by Dale Cooper"/>
-
-    <TextView
-        android:id="@+id/date_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/author_name_tv"
-        android:textSize="@dimen/_12ssp"
-        android:text="1 Nov 2020"/>
-
-    <me.zhanghai.android.materialratingbar.MaterialRatingBar
-        android:id="@+id/author_rating_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/_10sdp"
-        app:layout_constraintStart_toEndOf="@id/author_name_tv"
-        app:layout_constraintTop_toTopOf="@id/author_name_tv"
-        app:layout_constraintBottom_toBottomOf="@id/date_tv"
-        app:mrb_progressTint="@color/filled_stars"
-        app:mrb_secondaryProgressTint="@color/star_border"
-        android:scaleY="0.5"
-        android:scaleX="0.5"
-        android:transformPivotX="0dp"/>
-
-    <TextView
-        android:id="@+id/post_content_tv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/date_tv"
-        android:textSize="@dimen/_12ssp"
-        android:textColor="@color/black"
-        android:text="This is just some sample text to mimic a post. Normally there would be something different here."/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/comments_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/post_content_tv"
-        android:textSize="@dimen/_20ssp"
-        android:text="7 Comments"
-        android:textColor="@color/black"/>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/main_menu"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:title="@string/app_name" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/comments_rv"
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/comments_title_tv"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:nestedScrollingEnabled="false"
-        tools:listitem="@layout/item_comment"/>
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/post_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/_20ssp"
+            android:text="My New Post"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/author_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/post_title_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:text="by Dale Cooper"/>
+
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/author_name_tv"
+            android:textSize="@dimen/_12ssp"
+            android:text="1 Nov 2020"/>
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/author_rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toEndOf="@id/author_name_tv"
+            app:layout_constraintTop_toTopOf="@id/author_name_tv"
+            app:layout_constraintBottom_toBottomOf="@id/date_tv"
+            app:mrb_progressTint="@color/filled_stars"
+            app:mrb_secondaryProgressTint="@color/star_border"
+            android:scaleY="0.5"
+            android:scaleX="0.5"
+            android:transformPivotX="0dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:isIndicator="true"
+            app:mrb_fillBackgroundStars="false"/>
+
+        <TextView
+            android:id="@+id/post_content_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_tv"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/black"
+            android:text="This is just some sample text to mimic a post. Normally there would be something different here."/>
+
+        <TextView
+            android:id="@+id/comments_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_content_tv"
+            android:textSize="@dimen/_20ssp"
+            android:text="7 Comments"
+            android:textColor="@color/black"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/comments_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comments_title_tv"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/item_comment"/>
+
+        <ProgressBar
+            android:id="@+id/loadingPb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/comments_rv"
+            app:layout_constraintBottom_toBottomOf="@id/comments_rv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:indeterminate="true"
+            android:visibility="gone"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

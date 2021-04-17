@@ -1,9 +1,12 @@
 package com.fixdapp.internal.spacebook.api.models.individual
 
+import android.os.Parcelable
 import com.fixdapp.internal.spacebook.api.models.feed.UserModel
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Parcelize
 @Serializable
 data class PostModel(
     @SerialName("id")
@@ -20,6 +23,6 @@ data class PostModel(
 
     @SerialName("author")
     val author: UserModel
-) {
+): Parcelable {
     var numComments: Int? = null
 }

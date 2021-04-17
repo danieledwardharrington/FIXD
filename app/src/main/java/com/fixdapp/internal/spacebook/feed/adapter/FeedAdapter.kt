@@ -25,13 +25,22 @@ class FeedAdapter: PagingDataAdapter<ParentFeed, FeedAdapter.FeedViewHolder>(COM
     private val TAG = "FeedAdapter"
 
     private lateinit var listener: OnEventItemClickedListener
+    private lateinit var itemLoaded: OnItemLoadedListener
 
     interface OnEventItemClickedListener {
         fun onEventClicked(parentFeed: ParentFeed)
     }
 
+    interface OnItemLoadedListener {
+        fun itemLoaded()
+    }
+
     fun setEventItemClickedListener(newListener: OnEventItemClickedListener) {
         listener = newListener
+    }
+
+    fun setOnItemLoadedListener(newListener: OnItemLoadedListener) {
+        itemLoaded = newListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
@@ -58,6 +67,7 @@ class FeedAdapter: PagingDataAdapter<ParentFeed, FeedAdapter.FeedViewHolder>(COM
                         }
                     }
                 }
+                itemLoaded.itemLoaded()
             }
         }
     }

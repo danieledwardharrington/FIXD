@@ -22,6 +22,7 @@ class FeedPagingSource(private val api: SpacebookApi, private val id: Int):
                 when (event) {
                     is ParentFeed.CommentFeed -> {
                         event.commentModel.post = api.getPostById(event.commentModel.postId).data
+                        event.commentModel.post!!.numComments = api.getPostComments(event.commentModel.postId, 1, 50).pagination!!.totalEntries
                     }
 
                     is ParentFeed.PostFeed -> {

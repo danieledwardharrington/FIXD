@@ -12,6 +12,8 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/loginFragment_to_feedFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/feedFragment" />
     </fragment>
 
@@ -40,9 +42,11 @@
         <action
             android:id="@+id/action_feedFragment_to_loginFragment"
             app:destination="@id/loginFragment"
+            app:popUpTo="@id/feedFragment"
             app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_feedFragment_to_postFragment"
+            app:popUpTo="@id/feedFragment"
             app:destination="@id/postFragment" />
         <argument
             android:name="key"
@@ -54,14 +58,13 @@
         android:label="PostFragment"
         tools:layout="@layout/fragment_post" >
         <action
-            android:id="@+id/action_postFragment_to_feedFragment"
-            app:destination="@id/feedFragment" />
-        <action
             android:id="@+id/action_postFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/postFragment"
+            app:popUpToInclusive="true" />
         <argument
-            android:name="postId"
-            app:argType="integer" />
+            android:name="postModel"
+            app:argType="com.fixdapp.internal.spacebook.api.models.individual.PostModel" />
     </fragment>
 
 </navigation>

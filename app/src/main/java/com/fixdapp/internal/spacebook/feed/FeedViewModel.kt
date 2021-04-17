@@ -23,7 +23,7 @@ class FeedViewModel(private val api: SpacebookApi, private val database: Spacebo
     private val currentId = MutableLiveData(DEFAULT_ID)
     val userFromRoom = MutableLiveData<UserEntity>()
 
-    val feedPD = currentId.switchMap { id ->
+    val feedLD = currentId.switchMap { id ->
         getFeed(id).cachedIn(viewModelScope)
     }
 
@@ -36,7 +36,7 @@ class FeedViewModel(private val api: SpacebookApi, private val database: Spacebo
         Pager(
             config = PagingConfig(
                 pageSize = 20,
-                maxSize = 120,
+                maxSize = 60,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { FeedPagingSource(api, userId) }
@@ -45,12 +45,15 @@ class FeedViewModel(private val api: SpacebookApi, private val database: Spacebo
     fun logout() {
         Log.d(TAG, "logout")
         tokenManager.logout()
+        viewModelScope.launch {
+            database.userDao().deleteAllUsers()
+        }
     }
 
-    fun insertUser(userId: Int) {
+    fun insertUser(userEntity: UserEntity) {
         Log.d(TAG, "insertUser")
         viewModelScope.launch {
-            database.userDao().insert(UserEntity(userId))
+            database.userDao().insert(userEntity)
         }
     }
 

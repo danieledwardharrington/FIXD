@@ -49,7 +49,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.observe(viewLifecycleOwner, this::onStateChanged)
         viewModel.currentUserLD.observe(viewLifecycleOwner) { userModel ->
-            communicator.setUserId(userModel.id)
+            communicator.setUserEntity(userModel.id, userModel.name)
         }
 
         //hardcoding email and password so I don't have to type it in every time

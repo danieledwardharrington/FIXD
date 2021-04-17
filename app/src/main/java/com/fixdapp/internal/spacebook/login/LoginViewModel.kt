@@ -53,7 +53,7 @@ class LoginViewModel(private val api: SpacebookApi, private val sbDatabse: Space
                 Log.d("USER ID: ", res.data!!.id.toString())
                 Log.d("NAME: ", res.data.name)
                 currentUserLD.value = res.data!!
-
+                _state.value = State.FillingOutForm
             } catch (e: HttpException) {
                 // TODO: not the VM's responsibility to wrap retrofit
                 if (e.response()?.code() == 401) {

@@ -19,7 +19,7 @@ import com.fixdapp.internal.spacebook.feed.adapter.FeedAdapter
 import com.fixdapp.internal.spacebook.fromDependencies
 
 
-class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener, FeedAdapter.OnEventItemClickedListener {
+class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener, FeedAdapter.OnEventItemClickedListener, FeedAdapter.OnItemLoadedListener {
     private val TAG = "FeedFragment"
 
     private val viewModel: FeedViewModel by activityViewModels {
@@ -33,10 +33,7 @@ class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener, FeedAdapter.On
 
     private val feedAdapter = FeedAdapter()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_feed, container, false)
         view.findViewById<Toolbar>(R.id.toolbar).setOnMenuItemClickListener(this)
         return view
@@ -49,6 +46,7 @@ class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener, FeedAdapter.On
     }
 
     private fun initComponents() {
+        binding.loadingPb.visibility = View.VISIBLE
         initRV()
         handleViewModel()
     }
@@ -58,27 +56,36 @@ class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener, FeedAdapter.On
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             feedAdapter.setEventItemClickedListener(this@FeedFragment)
+            feedAdapter.setOnItemLoadedListener(this@FeedFragment)
             adapter = feedAdapter
         }
     }
 
     private fun handleViewModel() {
-        if (args.key == 1) {
-            Log.d(TAG, "From splashFragment")
-            viewModel.userFromRoom.observe(viewLifecycleOwner) { userEntity ->
-                Log.d(TAG, "userFromRoom observe: ${userEntity.sbId}")
-                viewModel.getUserFeed(userEntity.sbId)
+
+        try {
+            if (args.key == 1) {
+                Log.d(TAG, "From splashFragment")
+                viewModel.userFromRoom.observe(viewLifecycleOwner) { userEntity ->
+                    Log.d(TAG, "userFromRoom observe: ${userEntity.sbId}")
+                    viewModel.getUserFeed(userEntity.sbId)
+                    binding.toolbar.title = userEntity.name
+                }
+                viewModel.getUserFromDB()
             }
-            viewModel.getUserFromDB()
-        }
-        communicator.userIdLD.observe(viewLifecycleOwner) { userId ->
-            viewModel.getUserFeed(userId)
-            viewModel.insertUser(userId)
-        }
-        viewModel.feedPD.observe(viewLifecycleOwner) { pagingData ->
-            Log.d(TAG, "feedPD observe")
-            feedAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+            communicator.userEntityLD.observe(viewLifecycleOwner) { userEntity ->
+                binding.toolbar.title = userEntity.name
+                viewModel.getUserFeed(userEntity.sbId)
+                viewModel.insertUser(userEntity)
+            }
+
+            viewModel.feedLD.observe(viewLifecycleOwner) { pagingData ->
+                Log.d(TAG, "feedPD observe")
+                feedAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+            }
+        } catch (ex: Exception) {
             binding.loadingPb.visibility = View.GONE
+            Log.e(TAG, ex.message.toString())
         }
     }
 
@@ -101,17 +108,23 @@ class FeedFragment : Fragment(), Toolbar.OnMenuItemClickListener, FeedAdapter.On
             is ParentFeed.GithubMergePRFeed -> navigateToRepo(parentFeed.githubNewPR.url)
             is ParentFeed.GithubPushFeed -> navigateToRepo(parentFeed.githubPushModel.url)
             is ParentFeed.PostFeed -> {
-                val action = FeedFragmentDirections.actionFeedFragmentToPostFragment(parentFeed.postModel.id)
+                val action = FeedFragmentDirections.actionFeedFragmentToPostFragment(parentFeed.postModel)
                 findNavController().navigate(action)
             }
             is ParentFeed.CommentFeed -> {
-                val action = FeedFragmentDirections.actionFeedFragmentToPostFragment(parentFeed.commentModel.postId)
+                val action = FeedFragmentDirections.actionFeedFragmentToPostFragment(parentFeed.commentModel.post!!)
                 findNavController().navigate(action)
             }
             else -> Log.d(TAG, "when/else event click")
         }
     }
 
+    //just to remove the progress bar
+    override fun itemLoaded() {
+        binding.loadingPb.visibility = View.GONE
+    }
+
+    //navigating to the url in the browser
     private fun navigateToRepo(url: String) {
         Log.d(TAG, "navigateToRepo")
         try {

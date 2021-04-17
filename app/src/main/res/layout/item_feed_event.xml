@@ -47,12 +47,16 @@
         app:layout_constraintTop_toBottomOf="@id/event_tv"
         app:mrb_progressTint="@color/filled_stars"
         app:mrb_secondaryProgressTint="@color/star_border"
-        app:mrb_progressTintMode="src_atop"
         android:scaleX="0.5"
         android:scaleY="0.5"
         android:stepSize="0.01"
         android:transformPivotX="0dp"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:isIndicator="true"
+        app:mrb_fillBackgroundStars="false"/>
 
     <TextView
         android:id="@+id/comments_tv"

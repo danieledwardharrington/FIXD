@@ -36,13 +36,29 @@
         android:textSize="@dimen/_12ssp"
         android:text="Alexis Mateo"/>
 
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/user_rb"
+        android:layout_width="147dp"
+        android:layout_height="28dp"
+        app:mrb_progressTint="@color/filled_stars"
+        app:mrb_secondaryProgressTint="@color/star_border"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:transformPivotX="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/commenter_name_tv"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:isIndicator="true"
+        app:mrb_fillBackgroundStars="false"/>
+
     <ImageView
         android:id="@+id/delete_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/commenter_name_tv"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/user_rb"
         android:src="@drawable/ic_delete"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,9 @@ class CommentsPagingSource(private val api: SpacebookApi, private val postId: In
         return try {
             val response = api.getPostComments(postId, position, params.loadSize)
             val comments = response.data!!
+            for (comment in comments) {
+                comment.commentAuthor = api.gerUserById(comment.userId).data
+            }
 
             LoadResult.Page(
                 data = comments,
