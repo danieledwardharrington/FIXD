@@ -2,7 +2,7 @@
 
 The biggest comment I have is just slightly modifying the Post Fragment. I noticed the mock-up has an arrow in the top left to go back. I opted not to implement this since Androids have either a digital back button, physical button, 
 or the back gesture and I felt the back arrow might be a bit redundant. Also, I used room to store the currently logged in user. If I were really fleshing out this app more, I'd use Room more extensively but didn't want to go 
-overkill for the scope of this assessment.
+overkill for the scope of this assessment. I also have the comments scrolling independently of the post in the PostFragment.
 
 # Libraries
 
